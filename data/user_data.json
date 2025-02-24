@@ -1,0 +1,18 @@
+{
+    "owner": {
+        "email": "andrey.nguyenowner36@multilogin.com",
+        "password": "63a893295ab32eade50ed72544ecaec0"
+    },
+    "manager": {
+        "email": "andrey.nguyenmanager26@multilogin.com",
+        "password": "63a893295ab32eade50ed72544ecaec0"
+    },
+    "launcher": {
+        "email": "andrey.nguyenlauncher26@multilogin.com",
+        "password": "63a893295ab32eade50ed72544ecaec0"
+    },
+    "user": {
+        "email": "andrey.nguyenuser26@multilogin.com",
+        "password": "63a893295ab32eade50ed72544ecaec0"
+    }
+}

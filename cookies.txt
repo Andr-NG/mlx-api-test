@@ -1,0 +1,15 @@
+[
+    {
+        "domain": ".uefa.com",
+        "expirationDate": 1740135333.042084,
+        "hostOnly": false,
+        "httpOnly": false,
+        "name": "gig_bootstrap_3_7ZzMoWnPuFqZP-EsX9gVAKS1NFecCz7H3FlwyPAoNO2_m6bSF8Jlc_84-1RCIO-B",
+        "path": "/",
+        "sameSite": "no_restriction",
+        "secure": true,
+        "session": false,
+        "storeId": null,
+        "value": "idp-prod_ver4"
+    }
+]
