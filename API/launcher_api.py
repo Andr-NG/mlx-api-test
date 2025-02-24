@@ -1,6 +1,5 @@
 import logging
 import requests
-import os
 from pydantic_core import ValidationError
 from utils import ConfigProvider
 from data.profile_data import IMPORT_PROFILE_DATA
@@ -43,7 +42,7 @@ class Launcher:
             logger.error("Unexpected error occurred: %s", e)
             raise
 
-    def start_quick_profile(self, profile_param: dict, token: str) -> launcher.Response:
+    def start_quick_profile(self, profile_param: dict, token: str) -> dict:
         URL = self.url + '/profile/quick'
         body = launcher.QuickProfile(**profile_param)
         try:
@@ -63,10 +62,10 @@ class Launcher:
             logger.error("Unexpected error occurred: %s", e)
             raise
 
-    def get_launcher_version(self, token: str) -> launcher.VersionResponse:
+    def get_launcher_version(self) -> launcher.VersionResponse:
         URL = self.url + '/version'
         try:
-            data = requests.get(url=URL, headers=config.get_headers(token=token))
+            data = requests.get(url=URL)
             logger.info(
                 f"Receiving response from {self.get_launcher_version.__name__}: {data.json()}"
             )
@@ -145,12 +144,14 @@ class Launcher:
             raise
 
     def import_cookies(
-        self, cookies: str, token: str, xpass_load: bool = False
+        self, profile_id: str, folder_id: str, cookies: str, token: str, xpass_load: bool = False
     ) -> dict:
         """_summary_
 
         Args:
             token (str): Bearer token
+            folder_id (str): Folder ID
+            profile_id (str): Profile ID
             cookies (str): cookies as JSON string
             xpass_load (bool, optional): XPASS flag. Defaults to False.
 
@@ -160,8 +161,8 @@ class Launcher:
         URL = self.url + "/cookie_import"
         try:
             body = launcher.CookieImport(
-                profile_id=self.profile_id,
-                folder_id=self.folder_id,
+                profile_id=profile_id,
+                folder_id=folder_id,
                 cookies=cookies,
                 import_advanced_cookies=xpass_load,
             )
@@ -197,18 +198,22 @@ class Launcher:
             logger.info(
                 f"Receiving response from {self.export_profile.__name__}: {data.json()}"
             )
-            # response = launcher.ProfileExportStatusResponse(**data.json())
+            response = launcher.ProfileExportStatusResponse(**data.json())
+            self.export_id = response.data.export_id
             return data.json()
+
+        except ValidationError as e:
+            logger.error("Validation error occurred: %s", e)
+            raise
 
         except Exception as e:
             logger.error("Unexpected error occurred: %s", e)
             raise
 
-    def import_profile(self, export_id: str, token: str) -> dict:
+    def import_profile(self, token: str, export_id: str) -> dict:
         """Import Profile
 
         Args:
-            export_id (str): Export ID
             token (str): Bearer token
 
         Raises:

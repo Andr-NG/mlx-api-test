@@ -3,7 +3,6 @@ import data
 import os
 import requests
 import utils
-from typing import List
 from pydantic_core import ValidationError
 from dotenv import load_dotenv
 from models import MLX as mlx_models
@@ -71,7 +70,7 @@ class MLX:
             logger.error("Unexpected error occurred: %s", e)
             raise
 
-    def get_folder_id(self, token: str, folder_name='Default folder') -> dict:
+    def get_folder_id(self, token: str) -> dict:
         """Get the folder id
 
         Args:
@@ -89,10 +88,6 @@ class MLX:
                 f"Receiving response from {self.get_folder_id.__name__}: {data.json()}"
             )
             return data.json()
-            # parsed = mlx_models.UserFolderArrayResponse(**data.json())
-            # for folder in parsed.data.folders:
-            #     if folder.name == folder_name:
-            #         return folder.folder_id
 
         except Exception as e:
             logger.error("Unexpected error occurred: %s", e)
@@ -123,7 +118,7 @@ class MLX:
             logger.error("Unexpected error occurred: %s", e)
             raise
 
-    def create_profile(self, profile_params: dict, token: str) -> mlx_models.ArrayOfIDsResponse:
+    def create_profile(self, profile_params: dict, token: str) -> dict:
         """Create a profile
 
         Args:
@@ -143,12 +138,7 @@ class MLX:
             logger.info(
                 f"Receiving response from {self.create_profile.__name__}: {data.json()}"
             )
-
             return data.json()
-            # parsed = mlx_models.ArrayOfIDsResponse(**data.json())
-            # profile_list: List[str] = parsed.data.ids
-            # SharedVars.update_profile_id(profile_id=profile_list[0])
-            # return parsed
 
         except Exception as e:
             logger.error("Unexpected error occurred: %s", e)
