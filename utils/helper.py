@@ -151,17 +151,6 @@ class Helper:
             content = file.read()
 
         return content
-# def create_profile(token: str, body: dict) -> List[str]:
-#     try:
-#         res = mlx_api.create_profile(token=token, profile_params=body)
-#         response = ArrayOfIDsResponse(**res)
-#         logger.info("Creating profiles: %s", res)
-#         profile_list: List[str] = response.data.ids
-#         return profile_list
-
-#     except Exception as e:
-#         logger.error("An unexpected error occurred: %s", e)
-#         raise
 
 
 # def remove_profile(token: str, profiles: list) -> dict:
