@@ -117,14 +117,17 @@ jobs:
         
         - name: Run Tests
           run:  |
-                TEST_CMD="pytest --html=report.html --self-contained-html"
-                # if markes or test files have been specified
-                if "${{ inputs.run_test }}" != ""; then
-                TEST_CMD=$TEST_CMD "${{ inputs.run_test }}"
+                TEST_CMD="pytest"
+                REPORT_FLAGS="--html=report.html --self-contained-html"
+
+                # if Pytest markers or test files have been specified
+                if [ -n "${{ inputs.run_test }}" ]; then
+                TEST_CMD="$TEST_CMD ${{ inputs.run_test }} $REPORT_FLAGS"
+                else TEST_CMD="$TEST_CMD $REPORT_FLAGS"
                 fi
 
                 echo "Starting tests with: $TEST_CMD"
-                $TEST_CMD
+                eval $TEST_CMD
 
         - name: Check if log file exists
           id: check_log
