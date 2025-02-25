@@ -191,8 +191,7 @@ class TestProfileExportImport:
 
         # Importing a profile
         import_data = IMPORT_PROFILE_DATA
-        file_path = import_data['import_path'] / 'some_id.zip'
-        import_data['import_path'] = str(file_path)
+        import_data['import_path'] = str(import_data['import_path']) + 'some_id.zip'
 
         r = launcher_api.import_profile(
             token=token,
@@ -211,7 +210,6 @@ class TestProfileExportImport:
         self,
         request: FixtureRequest,
         launcher_api: API.Launcher,
-        create_profile: list,
         token: str,
         http_code: str,
         error_code: str,
@@ -219,9 +217,14 @@ class TestProfileExportImport:
     ) -> None:
         logger.info(f"Executing {request.node.name}")
 
-        # Attempting to call the endpoint
-        data = launcher_api.import_profile(profile_id=create_profile[0], token=token)
-        response = launcher.ProfileExportStatusResponse(**data)
+        # Attempting to call the endpoint with dummy data for import_data and export_id
+        import_data = IMPORT_PROFILE_DATA
+        import_data['import_path'] = str(import_data['import_path']) + 'some_id.zip'
+
+        r = launcher_api.import_profile(
+            export_id="some_id", import_data=import_data, token=token
+        )
+        response = launcher.ProfileExportStatusResponse(**r)
 
         assert response.status.error_code == error_code
         assert response.status.http_code == http_code
