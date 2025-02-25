@@ -82,8 +82,9 @@ def sign_in(mlx_api: API.MLX) -> tuple[str, str]:
 
 
 @pytest.fixture(scope='module')
-def create_profile(mlx_api: API.MLX, sign_in: tuple, get_folder_id: str) -> List[str]:
+def create_profile(mlx_api: API.MLX, sign_in: tuple, get_folder_id: str):
     try:
+        # Creating profiles as setup
         body = data.PROFILE_GENERIC
         logger.info("Adding folder_id to the body request")
         body.update({"folder_id": get_folder_id})
@@ -92,7 +93,10 @@ def create_profile(mlx_api: API.MLX, sign_in: tuple, get_folder_id: str) -> List
 
         parsed = mlx_models.ArrayOfIDsResponse(**response)
         profile_list: List[str] = parsed.data.ids
-        return profile_list
+        yield profile_list
+
+        # Deleting profiles as teardown
+        mlx_api.delete_profile(profile_ids=profile_list, token=token)
 
     except ValidationError as e:
         logger.error('Validation Error occurred: %s', e)

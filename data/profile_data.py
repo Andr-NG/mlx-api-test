@@ -61,8 +61,13 @@ QUICK_PROFILE_SELENIUM = {
 }
 
 HOME = Path.home()
+
 IMPORT_PROFILE_DATA = {
     'import_path': HOME / 'mlx' / 'exports',
     'is_local': False
 }
 
+IMPORT_PROFILE_DATA_IS_LOCAL_TRUE = {
+    'import_path': HOME / 'mlx' / 'exports',
+    'is_local': True
+}

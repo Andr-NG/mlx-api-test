@@ -4,6 +4,7 @@ import API
 import logging
 import time
 import os
+import data
 import pathlib
 from data import QUICK_PROFILE_SELENIUM
 from utils import Helper
@@ -225,8 +226,15 @@ class TestLauncherRegression:
     ) -> None:
         logger.info(f"Executing {request.node.name}")
         token, _ = sign_in
-        data = launcher_api.import_profile(token=token, export_id=cls.export_id)
-        response = launcher.ProfileImportStatusResponse(**data)
+        import_data = data.IMPORT_PROFILE_DATA
+        file_path = import_data['import_path'] / f"{cls.export_id}.zip"
+        import_data['import_path'] = str(file_path)
+
+        r = launcher_api.import_profile(
+            token=token,
+            export_id=cls.export_id,
+            import_data=import_data)
+        response = launcher.ProfileImportStatusResponse(**r)
 
         assert response.status.http_code == 200, "Failed to import profile"
         assert response.data.status == "running"

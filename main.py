@@ -10,6 +10,6 @@
 import pathlib
 
 
-path = pathlib.Path('C:\\Users\\Andrey Nguyen\\mlx\\exports\\30b9768d-52e1-4ad3-aa24-f17db727c93b.zip')
+path = pathlib.Path('C:\\Users\\Andrey Nguyen\\mlx\\exports\\49525321-2c5c-44a0-b32a-ae51d5.zip')
 
-print(path)
+print(path.exists())

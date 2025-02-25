@@ -198,8 +198,6 @@ class Launcher:
             logger.info(
                 f"Receiving response from {self.export_profile.__name__}: {data.json()}"
             )
-            response = launcher.ProfileExportStatusResponse(**data.json())
-            self.export_id = response.data.export_id
             return data.json()
 
         except ValidationError as e:
@@ -210,14 +208,13 @@ class Launcher:
             logger.error("Unexpected error occurred: %s", e)
             raise
 
-    def import_profile(self, token: str, export_id: str) -> dict:
-        """Import Profile
+    def import_profile(self, token: str, export_id: str, import_data: dict) -> dict:
+        """Import profile
 
         Args:
             token (str): Bearer token
-
-        Raises:
-            FileNotFoundError: File not found
+            export_id (str): Export ID
+            import_data (dict): Import data
 
         Returns:
             dict: Import profile response
@@ -225,13 +222,7 @@ class Launcher:
 
         URL = self.url + '/profile/import'
         try:
-            import_data = IMPORT_PROFILE_DATA
-            file_path = import_data['import_path'] / f"{export_id}.zip"
 
-            if not file_path.exists():
-                raise FileNotFoundError
-
-            import_data['import_path'] = str(file_path)
             body = launcher.ImportProfileRequest(**import_data)
             data = requests.post(
                 url=URL, headers=config.get_headers(token=token), data=body.to_json()
