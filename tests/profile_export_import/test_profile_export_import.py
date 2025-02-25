@@ -222,7 +222,7 @@ class TestProfileExportImport:
         import_data['import_path'] = str(import_data['import_path']) + 'some_id.zip'
 
         r = launcher_api.import_profile(
-            export_id="some_id", import_data=import_data, token=token
+            export_id='some_id', import_data=import_data, token=token
         )
         response = launcher.ProfileExportStatusResponse(**r)
 
