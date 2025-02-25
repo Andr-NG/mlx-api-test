@@ -42,6 +42,11 @@ on:
                 description: 'Select the build version'
                 required: true
                 default: 'latest-build'
+            run_test:
+                description: 'Specify path to run certain tests. Default it is just pytest'
+                default: 'pytest --html=report.html --self-contained-html'
+                type: string
+
 jobs:
     test:
         runs-on: ubuntu-latest
@@ -114,7 +119,7 @@ jobs:
         - name: Start test
           run:  |
                 set -e
-                pytest tests/test_launcher_regression.py --html=report.html --self-contained-html
+                ${{ inputs.run_test }}
 
         - name: Check if log file exists
           id: check_log
@@ -125,12 +130,18 @@ jobs:
               echo "exists=false" >> $GITHUB_ENV
             fi
 
-        - name: Upload Log File as Artifact
+        - name: Upload Launcher Log File as Artifact
           if: env.exists == 'true'
           uses: actions/upload-artifact@v4
           with:
             name: launcher-logs
             path: ~/mlx/logs/launcher_*
+        
+        - name: Upload Log File as Artifact
+          uses: actions/upload-artifact@v4
+          with:
+            name: ltest-run-logs
+            path: my_logs.log
 
         - name: Upload HTML Report as Artifact
           uses: actions/upload-artifact@v4
