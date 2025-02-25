@@ -2,7 +2,6 @@
 import time
 import pytest
 import logging
-
 import websocket
 import API
 import utils
@@ -136,6 +135,7 @@ def connect_ws():
             yield ws
             logger.info("Shutting down connection")
             ws.close()
+            break
 
         except websocket.WebSocketException as e:
             logger.error(f"Connection attempt {attempt} failed: {e}")
@@ -150,6 +150,7 @@ def connect_ws():
             yield ws
             logger.info("Shutting down connection")
             ws.close()
+            break
 
         except Exception as e:
             logger.error(f"Unexpected error occurred: {e}")

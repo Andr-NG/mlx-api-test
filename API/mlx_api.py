@@ -43,10 +43,15 @@ class MLX:
             raise
 
     def refresh_token(self, workspace_id: str, refresh_token: str, token: str) -> dict:
-        """Refresh token
+        """Update token
+
+        Args:
+            workspace_id (str): Workspace ID
+            refresh_token (str): Refresh token
+            token (str): Bearer token
 
         Returns:
-            dict: sign in response
+            dict: Refresh token response
         """
         URL = self.url + "/user/refresh_token"
         HEADERS = config.get_headers(token=token)
@@ -75,7 +80,6 @@ class MLX:
 
         Args:
             token (str): Bearer token
-            folder_name (str): Folder name to search
 
         Returns:
             dict: Get folder id response (Default folder)
