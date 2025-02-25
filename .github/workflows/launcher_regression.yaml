@@ -43,8 +43,7 @@ on:
                 required: true
                 default: 'latest-build'
             run_test:
-                description: 'Specify path to run certain tests. Default it is just pytest'
-                default: 'pytest --html=report.html --self-contained-html'
+                description: 'Specify a certain module/test file or pytest marker to start'
                 type: string
 
 jobs:
@@ -116,10 +115,16 @@ jobs:
                 fi
                 echo "Launcher started"
         
-        - name: Start test
+        - name: Run Tests
           run:  |
-                set -e
-                ${{ inputs.run_test }}
+                TEST_CMD="pytest --html=report.html --self-contained-html"
+                # if markes or test files have been specified
+                if "${{ inputs.run_test }}" != ""; then
+                TEST_CMD=$TEST_CMD "${{ inputs.run_test }}"
+                fi
+
+                echo "Starting tests with: $TEST_CMD"
+                $TEST_CMD
 
         - name: Check if log file exists
           id: check_log
