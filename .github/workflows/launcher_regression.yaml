@@ -1,4 +1,5 @@
-name: Test Run
+name: API Test Run
+run-name: API Test - ${{ inputs.backend_env }} - ${{ inputs.run_test || 'all tests' }}
 
 on:
     workflow_dispatch:
@@ -149,11 +150,11 @@ jobs:
         - name: Upload Log File as Artifact
           uses: actions/upload-artifact@v4
           with:
-            name: ltest-run-logs
+            name: latest-run-logs
             path: my_logs.log
 
         - name: Upload HTML Report as Artifact
           uses: actions/upload-artifact@v4
           with:
-                name: pytest-report
-                path: report.html
+            name: pytest-report
+            path: report.html

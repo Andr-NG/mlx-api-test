@@ -296,3 +296,52 @@ class Launcher:
         except Exception as e:
             logger.error("Unexpected error occurred: %s", e)
             raise
+    
+    def get_all_import_status(self, token: str) -> dict:
+        """All import profile status
+
+        Args:
+            token (str): Bearer token
+
+        Returns:
+            dict: All import profile status
+        """
+
+        URL = self.url + '/profile/imports/statuses'
+
+        try:
+            data = requests.get(
+                url=URL, headers=config.get_headers(token=token)
+            )
+            logger.info(
+                f"Receiving response from {self.get_all_import_status.__name__}: {data.json()}"
+            )
+
+            return data.json()
+
+        except Exception as e:
+            logger.error('Unexpected error occurred: %s', e)
+            raise
+
+    def get_all_export_status(self, token: str) -> dict:
+        """Export profile status
+
+            Args:
+                token (str): Bearer token
+
+            Returns:
+                token: Export status response
+            """
+
+        URL = self.url + '/profile/exports/statuses'
+
+        try:
+            data = requests.get(url=URL, headers=config.get_headers(token=token))
+            logger.info(
+                f"Receiving response from {self.get_all_export_status.__name__}: {data.json()}"
+            )
+            return data.json()
+
+        except Exception as e:
+            logger.error("Unexpected error occurred: %s", e)
+            raise
