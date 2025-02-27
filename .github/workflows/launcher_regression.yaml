@@ -44,13 +44,12 @@ on:
                 required: true
                 default: 'latest-build'
             run_test:
-                description: 'Specify a certain module/test file or pytest marker to start. https://docs.pytest.org/en/6.2.x/usage.html'
+                description: 'Specify a certain module/test file or pytest marker to start (tests/proxy/ etc.). https://docs.pytest.org/en/6.2.x/usage.html'
                 type: string
 
 jobs:
     test:
         runs-on: ubuntu-latest
-        environment: ${{ inputs.backend_env }}
         env:
             EMAIL: ${{ vars.EMAIL }}
             PASSWORD: ${{ vars.PASSWORD }}
