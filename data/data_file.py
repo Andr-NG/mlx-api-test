@@ -1,5 +1,5 @@
 # flake8: noqa
-from data.profile_data import IMPORT_PROFILE_DATA, IMPORT_PROFILE_DATA_IS_LOCAL_TRUE
+from data.profile_data import IMPORT_PROFILE_DATA, IMPORT_PROFILE_DATA_IS_LOCAL_TRUE, PROFILE_PROXY_CUSTOM
 
 
 RESTRICTIONS = {
@@ -42,13 +42,13 @@ UNAUTH_VALS = [
         "Authorization error",
     ),  # Expired token
 ]
-UNAUTH_IDS = ["Missing token", "Invalid token", "Expired token"]
+UNAUTH_IDS = ['Missing token', 'Invalid token', 'Expired token']
 
-PROFILE_IMPORT_ARGS = "imported_data"
+PROFILE_IMPORT_ARGS = 'imported_data'
 PROFILE_IMPORT_VALS = [(IMPORT_PROFILE_DATA), (IMPORT_PROFILE_DATA_IS_LOCAL_TRUE)]
-PROFILE_IMPORT_IDS = ["Imported profile is cloud", "Imported profile is local"]
+PROFILE_IMPORT_IDS = ['Imported profile is cloud', 'Imported profile is local']
 
-PROFILE_EXPORT_INVALID_ID_ARGS = "profile_id , http_code, error_code, msg"
+PROFILE_EXPORT_INVALID_ID_ARGS = 'profile_id , http_code, error_code, msg'
 PROFILE_EXPORT_INVALID_ID_VALS = [
     (
         "e51f7908-441c-4c2c-8405-ae2ff2842e9a",
@@ -74,3 +74,23 @@ PROFILE_EXPORT_INVALID_ID_IDS = [
     "Existing profile created by another user",
     "Invalid ID",
 ]
+
+HTTP_PROXY_SAVER_FALSE = {
+            "type": "http",
+            "host": "rotating.proxyempire.io",
+            "port": 9000,
+            "username": "yzBYkTa4iCrZYvmn",
+            "password": "wifi;vn;;hanoi;cau+giay",
+            "save_traffic": False
+        }
+SOCKS_PROXY_SAVER_TRUE = {
+            'type': 'socks5',
+            'host': 'rotating.proxyempire.io',
+            'port': 9000,
+            'username': 'yzBYkTa4iCrZYvmn',
+            'password': 'wifi;vn;;hanoi;cau+giay',
+            'save_traffic': True
+        }
+PROXY_ARGS = 'proxy'
+PROXY_VALS = [(HTTP_PROXY_SAVER_FALSE), (SOCKS_PROXY_SAVER_TRUE)]
+PROXY_IDS = ['http, save_traffic is False', 'socks5, save_traffic is True']

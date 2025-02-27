@@ -5,8 +5,6 @@ fake = faker.Faker()
 PROFILE_GENERIC = {
     'browser_type': 'mimic',
     'folder_id': '',
-    # 'auto_update_core': False,
-    # 'core_version': 131,
     'name': f'{fake.name()}',
     'os_type': 'windows',
     'parameters': {
@@ -33,6 +31,45 @@ PROFILE_GENERIC = {
     },
     'times': 1,
 }
+
+PROFILE_PROXY_CUSTOM = {
+    'browser_type': 'mimic',
+    'folder_id': '',
+    'name': f'{fake.name()}',
+    'os_type': 'windows',
+    'parameters': {
+        "proxy": {
+            "type": "http",
+            "host": "rotating.proxyempire.io",
+            "port": 9000,
+            "username": "yzBYkTa4iCrZYvmn",
+            "password": "wifi;vn;;hanoi;cau+giay",
+            "save_traffic": False
+        },
+        'fingerprint': {},
+        'flags': {
+            'audio_masking': 'mask',
+            'fonts_masking': 'mask',
+            'geolocation_masking': 'mask',
+            'geolocation_popup': 'prompt',
+            'graphics_masking': 'mask',
+            'graphics_noise': 'mask',
+            'localization_masking': 'mask',
+            'media_devices_masking': 'mask',
+            'navigator_masking': 'mask',
+            'ports_masking': 'mask',
+            'proxy_masking': 'custom',
+            'quic_mode': 'natural',
+            'screen_masking': 'mask',
+            'timezone_masking': 'mask',
+            'webrtc_masking': 'disabled',
+            'startup_behavior': 'recover',
+        },
+        'storage': {'is_local': False, 'save_service_worker': False},
+    },
+    'times': 1,
+}
+
 
 QUICK_PROFILE_SELENIUM = {
     'browser_type': 'mimic',

@@ -11,7 +11,6 @@ import hashlib
 from typing import List
 from pydantic import ValidationError
 from models import MLX as mlx_models
-from models import launcher
 
 # Create a logger with a name specific to your project
 logger = logging.getLogger("my_logger")
@@ -53,8 +52,8 @@ def launcher_api(config: utils.ConfigProvider) -> API.Launcher:
     return API.Launcher(url=URL)
 
 
-@pytest.fixture(scope='module')
-def sign_in(mlx_api: API.MLX) -> tuple[str, str]:
+@pytest.fixture(scope='session')
+def sign_in(mlx_api: API.MLX):
     """Sign in
 
     Args:
@@ -65,6 +64,7 @@ def sign_in(mlx_api: API.MLX) -> tuple[str, str]:
     """
     email = os.getenv("EMAIL")
     hashed_pass = hashlib.md5(os.getenv("PASSWORD").encode()).hexdigest()
+
     try:
         data = mlx_api.sign_in(
                 login=email, password=hashed_pass
@@ -72,14 +72,19 @@ def sign_in(mlx_api: API.MLX) -> tuple[str, str]:
         response = mlx_models.SigninResponse(**data)
         token = response.data.token
         refresh_token = response.data.refresh_token
-        return token, refresh_token
+        yield token, refresh_token
 
     except ValidationError as e:
         logger.error('Validation Error occurred: %s', e)
     
     except Exception as e:
         logger.error('Unknown Error occurred: %s', e)
-
+    
+    logger.info('Cleaning up: deleting all the created profiles')
+    r = mlx_api.search_profile(token=token)
+    search_output = mlx_models.ProfileSearchQueryResponse(**r)
+    profile_list = [profile.id for profile in search_output.data.profiles]
+    data = mlx_api.delete_profile(profile_ids=profile_list, token=token)
 
 @pytest.fixture(scope='module')
 def create_profile(mlx_api: API.MLX, sign_in: tuple, get_folder_id: str):

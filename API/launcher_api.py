@@ -2,7 +2,6 @@ import logging
 import requests
 from pydantic_core import ValidationError
 from utils import ConfigProvider
-from data.profile_data import IMPORT_PROFILE_DATA
 from models import launcher
 
 logger = logging.getLogger('my_logger')
@@ -296,7 +295,7 @@ class Launcher:
         except Exception as e:
             logger.error("Unexpected error occurred: %s", e)
             raise
-    
+
     def get_all_import_status(self, token: str) -> dict:
         """All import profile status
 

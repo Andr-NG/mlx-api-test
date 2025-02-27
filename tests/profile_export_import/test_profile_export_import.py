@@ -14,9 +14,8 @@ logger = logging.getLogger("my_logger")
 
 class TestProfileExportImport:
     """Test class contaning tests regarding the profile export/import feature.
-
-    test_profile_import has to be invoked along with test_profile_export
-    as the former is dependant on export_id and imported_profile_id
+    import-related tests has to run along with export-related ones
+    as the former are dependant on export_id and imported_profile_id
     """
     export_id = None
     imported_profile_id = None

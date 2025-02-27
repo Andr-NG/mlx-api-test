@@ -34,7 +34,7 @@ class MLX:
             credentials = mlx_models.UserCreds(email=login, password=password)
             data = requests.post(url=URL, data=credentials.to_json())
             logger.info(
-                f"Receiving response from {self.sign_in.__name__}: {data.json()}"
+                f"Receiving response from {self.sign_in.__name__}: {data.json()['status']}"
             )
             return data.json()
 
@@ -221,7 +221,7 @@ class MLX:
                 url=URL, data=body.to_json(), headers=config.get_headers(token=token)
             )
             logger.info(
-                f"Receiving response from {self.search_profile.__name__}: {raw_data.json()}"
+                f"Receiving response from {self.search_profile.__name__}: {raw_data.status_code}"
             )
             return raw_data.json()
 
